@@ -1,2 +1,2 @@
-# hunters
+# Hunters
 Projeto Hunters
