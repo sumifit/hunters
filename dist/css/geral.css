@@ -1,0 +1,53 @@
+@-webkit-keyframes spinner {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+.btn-spinner{
+    display:none;
+}
+.is-loading .btn-spinner {
+    display:inline-block;
+    transition: 0.2s margin ease-in, 0.4s opacity ease-in;
+    margin-left: 5px;
+    opacity: 1;
+    animation: spinner 1250ms infinite linear;
+}
+.alertify{
+    z-index:99999!important;
+}
+.error .show{
+    z-index:999999!important;
+}
+.alertify-logs{
+    z-index:999999!important;
+}
+.error, .required{
+    color:#ba0000;
+    display:none;
+    text-align:left;
+}
+.form-error{
+    padding-left:36px;
+}
+.invalidInput, .invalidRequiredInput{
+    border:1px solid #ba0000!important;
+}
+.red{
+    color:red;
+}
+.select2-container .select2-search,
+.select2-container .select2-search__field {
+    width: 100% !important;
+}
