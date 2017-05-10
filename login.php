@@ -63,25 +63,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
                 });
             })();
 
-            //pega os dados das tabelas de dominio
-            function getDominioData(){
-
-                var action = "getDominioData";
-
-                var send = $http.post(configs.userController, "&action=" + action,
-                    {
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    });
-                send.then(function (data) {
-                    if (data.data.success == 0) {
-                        alertify.error(data.data.msg);
-                    } else{
-                        localStorage.setItem('dominios', JSON.stringify(data.data.msg));
-                    }
-                });
-                return send;
-            }
-
             /*
              * LINKEDIN LOGIN
              * */
@@ -108,8 +89,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
                             if (data.data.success == 0) {
                                 alertify.error(data.data.msg);
                             } else if (!!data.data.id) {
-                                //pega os dados de dominio e salva no localStorage
-                                getDominioData();
                                 location.href = "candidates/home.php";
                             }
                         });
@@ -172,8 +151,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
                                     if (data.data.success == 0) {
                                         alertify.error(data.data.msg);
                                     } else if (!!data.data.id) {
-                                        //pega os dados de dominio e salva no localStorage
-                                        getDominioData();
                                         location.href = "candidates/home.php";
                                     }
                                 });
@@ -251,8 +228,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
                                 if (data.data.success == 0) {
                                     alertify.error(data.data.msg);
                                 } else if (!!data.data.id) {
-                                    //pega os dados de dominio e salva no localStorage
-                                    getDominioData();
                                     location.href = "candidates/home.php";
                                 }
                             });
@@ -281,9 +256,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
                     if (data.data.success == 0) {
                         alertify.error(data.data.msg);
                     } else if (!!data.data.id) {
-
-                        //pega os dados de dominio e salva no localStorage
-                        getDominioData();
 
                         location.href = "candidates/home.php";
                     }else{

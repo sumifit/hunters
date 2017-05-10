@@ -71,9 +71,29 @@ $view = new TemplateController($arrayView);
                 "label-default"
             ];
 
-            $scope.dominios = JSON.parse(localStorage.getItem('dominios'));
+            //pega os dados das tabelas de dominio
+            function getDominioData(){
 
-            $scope.formGrauEscolaridade = $scope.dominios.escolaridade[0].grau_escolaridade;
+                var action = "getDominioData";
+
+                var send = $http.post(configs.userController, "&action=" + action,
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    });
+                send.then(function (data) {
+                    if (data.data.success == 0) {
+                        toastr.error(data.data.msg);
+                    } else{
+                        $scope.dominios = data.data.msg;
+                        console.log($scope.dominios)
+                        $scope.formGrauEscolaridade = $scope.dominios.escolaridade[0].grau_escolaridade;
+                    }
+                });
+                return send;
+            }
+
+            //Pega os dados de dominio do sistema
+            getDominioData();
 
             $("#cepCandidato").focusout(function(){
                 if(FormUtils.vnumber11($(this))){

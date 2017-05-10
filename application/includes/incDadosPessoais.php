@@ -92,7 +92,7 @@
                                                ng-value="dadosUsuario.cpf"
                                                name="dados[cpf]"
                                                ng-model="dadosPessoais.cpf"
-                                               data-inputmask="'mask': ['999-999-999[-99]','999-999-999[-99']"
+                                               data-inputmask="'mask': ['999.999.999[-99]','999.999.999[-99']"
                                                data-mask placeholder="CPF" required>
                                     </div><!-- /.input group -->
                                     <small class="error form-error" style="display:none;">CPF inválido</small>

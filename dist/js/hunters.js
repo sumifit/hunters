@@ -18,7 +18,7 @@ hunters.factory('randomize', function() {
         }
     }
 });
-hunters.run(function ($rootScope, $http, configs) {
+hunters.run(function ($rootScope, $http, configs, alertify) {
     //pega os dados gerais
     $http({
         method: 'POST',
@@ -67,22 +67,24 @@ hunters.run(function ($rootScope, $http, configs) {
     //pega os dados da agenda
     var getNoti = function()
     {
-        var action = "getNoti";
+        if(window.location.href.indexOf('login') === -1){
+            var action = "getNoti";
 
-        var send = $http.post(configs.agendaController, "action=" + action,
-            {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            });
+            var send = $http.post(configs.agendaController, "action=" + action,
+                {
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                });
 
-        send.then(function (data) {
-            if (data.data.success == 0) {
+            send.then(function (data) {
+                if (data.data.success == 0) {
 
-            } else {
-                $rootScope.qtdCaixa = data.data.msg.caixa.length;
-                $rootScope.qtdAgenda = data.data.msg.agenda.length;
-                $rootScope.qtdAvaliacao = data.data.msg.avaliacao.length;
-            }
-        })
+                } else {
+                    $rootScope.qtdCaixa = data.data.msg.caixa.length;
+                    $rootScope.qtdAgenda = data.data.msg.agenda.length;
+                    $rootScope.qtdAvaliacao = data.data.msg.avaliacao.length;
+                }
+            })
+        }
     }
 
     setInterval(function(){
