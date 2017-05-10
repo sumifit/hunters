@@ -33,6 +33,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
 
     <script type="text/javascript" src="//platform.linkedin.com/in.js">
         api_key: 78shltqcif7413
+        authorize: true
     </script>
 
     <script src="node_modules/angular/angular.min.js"></script>
