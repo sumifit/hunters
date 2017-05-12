@@ -82,3 +82,22 @@ class VagasController extends MongoSample
         }else return ['success'=> 0, 'msg'=> $result];
     }
 }
+if (isset($_POST['action']) && !empty($_POST['action'])) {
+    $action = $_POST['action'];
+    $uController = new VagasController();
+    try {
+        switch ($action) {
+            case 'listarVagas'        :
+                echo json_encode($uController->listarVagas());
+                break;
+            case 'listarCargos'        :
+                echo json_encode($uController->listarCargos());
+                break;
+            case 'listarEmpresas'        :
+                echo json_encode($uController->listarEmpresas());
+                break;
+        }
+    } catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+        echo Helpers::jsonEncode(["success" => 0, "msg" => "Tempo limite de conexão atingido, tente novamente!"]);
+    }
+}
