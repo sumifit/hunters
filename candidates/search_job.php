@@ -1,3 +1,12 @@
+<?php
+ob_start();
+session_start();
+
+include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."config".DIRECTORY_SEPARATOR."bootstrap.php";
+
+$arrayView = $_SESSION;
+$view = new TemplateController($arrayView);
+?>
 <!DOCTYPE html>
 <html ng-app="hunters">
 <head>
@@ -121,7 +130,7 @@
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation - Rodrigo</span>
+                <span class="sr-only">Toggle navigation - <?= $view->firstName($view->__get("nome")); ?></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -136,16 +145,19 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../dist/img/rodrigo.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Rodrigo Gomes</span>
+                            <img actual-src="{{dadosUsuario.image_link}}" ng-src="../dist/img/avatar_padrao.png"
+                                 class="user-image" alt="User Image" ng-cloak>
+                            <span class="hidden-xs"><?= $view->firstName($view->__get("nome")); ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../dist/img/rodrigo.jpg" class="img-circle" alt="User Image">
+                                <img actual-src="{{dadosUsuario.image_link}}" ng-src="../dist/img/avatar_padrao.png"
+                                     class="img-circle" alt="User Image" ng-cloak>
                                 <p>
-                                    Rodrigo Gomes - Analista de Business Intelligence
-                                    <small>Menbro desde Janeiro 2016</small>
+                                    <?= $view->firstName($view->__get("nome")); ?> <span
+                                            ng-if="!!cargo_atual">-</span> {{cargo_atual}}
+                                    <small ng-if="fraseMembroDesde">{{fraseMembroDesde}}</small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->
@@ -154,7 +166,7 @@
                                     <a href="profile.php" class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="../login.php" class="btn btn-default btn-flat">Sair</a>
+                                    <a ng-click="deslogar()" class="btn btn-default btn-flat">Sair</a>
                                 </div>
                             </li>
                         </ul>
