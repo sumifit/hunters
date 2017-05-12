@@ -1,9 +1,10 @@
 <?php
 header('Content-Type: application/json');
-include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."config".DIRECTORY_SEPARATOR."bootstrap.php";
 
 ob_start();
 session_start();
+
+include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."config".DIRECTORY_SEPARATOR."bootstrap.php";
 
 /**
  * Created by PhpStorm.
