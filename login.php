@@ -37,7 +37,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
     <link rel="stylesheet" href="node_modules/angular-loading-bar/build/loading-bar.min.css">
 
     <script type="text/javascript" src="//platform.linkedin.com/in.js">
-        api_key: 78shltqcif7413
+        api_key: 78a31asbikx1we
         authorize: true
 </script>
 
