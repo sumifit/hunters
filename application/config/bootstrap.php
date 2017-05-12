@@ -10,7 +10,7 @@ spl_autoload_register(function ($class_name) {
     include CONTROLLERS . $class_name . '.php';
 });
 
-define("DEBUG", true);
+define("DEBUG", false);
 
 function switchMethod($object, $action){
     if (isset($_POST['action']) && !empty($_POST['action'])) {
