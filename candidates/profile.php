@@ -15,6 +15,7 @@ $view = new TemplateController($arrayView);
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -749,7 +750,7 @@ $view = new TemplateController($arrayView);
                                     <a href="profile.php" class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="../login.php" class="btn btn-default btn-flat">Sair</a>
+                                    <a ng-click="deslogar()" class="btn btn-default btn-flat">Sair</a>
                                 </div>
                             </li>
                         </ul>

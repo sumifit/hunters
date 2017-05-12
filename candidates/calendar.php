@@ -360,13 +360,13 @@ $view = new TemplateController($arrayView);
                     </li>
 
                     <li>
-                        <a href="evaluation.html">
+                        <a href="evaluation.php">
                             <i class="fa fa-book"></i> <span>Avaliação Técnica</span>
                             <small class="label pull-right bg-yellow" ng-cloak>{{qtdAvaliacao}}</small>
                         </a>
                     </li>
 
-                    <li><a href="search_job.html"><i class="fa fa-search"></i> <span>Pesquisa de Vagas</span></a></li>
+                    <li><a href="search_job.php"><i class="fa fa-search"></i> <span>Pesquisa de Vagas</span></a></li>
 
                 </ul>
             </section>

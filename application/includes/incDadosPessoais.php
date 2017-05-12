@@ -226,7 +226,7 @@
                                                    ng-value="dadosUsuario.candidato.telefone"
                                                    name="dados[candidato][telefone]"
                                                    ng-model="dadosPessoais.telefone"
-                                                   data-inputmask='"mask": "(999) 9999-9999"'
+                                                   data-inputmask='"mask": "(099) 9999-9999"'
                                                    data-mask>
                                         </div><!-- /.input group -->
                                     </div><!-- /.form group -->
@@ -250,7 +250,7 @@
                                                ng-value="dadosUsuario.candidato.celular"
                                                ng-model="dadosPessoais.celular"
                                                name="dados[candidato][celular]"
-                                               data-inputmask='"mask": "(999) 99999-9999"'
+                                               data-inputmask='"mask": "(099) 99999-9999"'
                                                data-mask required>
                                     </div><!-- /.input group -->
                                     <small class="error form-error" style="display:none;">Celular inválido</small>
@@ -263,9 +263,9 @@
                                                                             class="fa fa-envelope"></i></span>
                                         <input type="email" class="form-control"
                                                id="emailCandidato"
-                                               ng-value="dadosUsuario.candidato.email"
+                                               ng-value="dadosUsuario.email"
                                                ng-model="dadosPessoais.email"
-                                               name="dados[candidato][email]"
+                                               name="dados[email]"
                                                placeholder="Email" required>
                                     </div>
                                     <small class="error form-error" style="display:none;">Email inválido</small>

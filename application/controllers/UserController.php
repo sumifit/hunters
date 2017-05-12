@@ -58,6 +58,12 @@ class UserController extends MongoSample
         }
     }
 
+    public function logout(){
+        if(session_destroy()){
+            echo  json_encode(['success'=>1, 'msg'=>'deslogado com sucesso']);
+        }else echo  json_encode(['success'=>0, 'msg'=>'Não foi possivel deslogar']);
+    }
+
     public function getUsuarioData()
     {
         if(!isset($_SESSION['_id'])){
@@ -647,6 +653,9 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
         switch ($action) {
             case 'login'        :
                 $uController->login();
+                break;
+            case 'logout'        :
+                $uController->logout();
                 break;
             case 'atualizarDadosPessoais'  :
                 $uController->atualizarDadosPessoais($dados);

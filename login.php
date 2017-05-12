@@ -2,6 +2,11 @@
 <?php
 ob_start();
 session_start();
+
+if(isset($_SESSION['_id']) && !empty($_SESSION['_id'])){
+    header("Location: candidates/profile.php");
+}
+
 include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."config".DIRECTORY_SEPARATOR."bootstrap.php";
 
 ?>
@@ -32,7 +37,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
     <link rel="stylesheet" href="node_modules/angular-loading-bar/build/loading-bar.min.css">
 
     <script type="text/javascript" src="//platform.linkedin.com/in.js">
-        api_key: 78shltqcif7413
+        api_key: <?php if(DEBUG) echo LINKEDIN_DEBUG; else echo LINKEDIN_PROD; ?>
         authorize: true
 </script>
 
@@ -41,7 +46,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
     <script src="node_modules/alertify.js/dist/js/ngAlertify.js"></script>
     <script src="node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
     <!-- google+ login -->
-    <script src="bower_components/angular-directive.g-signin/google-plus-signin.js"></script>
+    <!--<script src="bower_components/angular-directive.g-signin/google-plus-signin.js"></script>-->
 
     <script src="dist/js/hunters.js"></script>
     <script>
@@ -125,6 +130,22 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
              * FACEBOOK LOGIN
              *
              * */
+            //envia a requisição para o back end saber se é necessario cadastrar ou apenas logar o usuário
+            $scope.facebookCadastro = function(userData, action){
+                var send = $http.post(configs.userController, userData + "&action=" + action,
+                    {
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    });
+                send.then(function (data) {
+                    if (data.data.success == 0) {
+                        alertify.error(data.data.msg);
+                    } else if (!!data.data.id) {
+                        location.href = "candidates/home.php";
+                    }
+                });
+                return send;
+            }
+            //abre a janela de permissões e realiza o login do facebook
             $scope.doLoginFacebook = function () {
                 FB.login(function (response) {
                     if (response.status === 'connected') {
@@ -144,23 +165,12 @@ include_once $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTO
 
                                 var action = "cadastrarFacebook";
 
-                                var send = $http.post(configs.userController, userData + "&action=" + action,
-                                    {
-                                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                    });
-                                send.then(function (data) {
-                                    if (data.data.success == 0) {
-                                        alertify.error(data.data.msg);
-                                    } else if (!!data.data.id) {
-                                        location.href = "candidates/home.php";
-                                    }
-                                });
-                                return send;
+                                $scope.facebookCadastro(userData, action)
                             })
                         });
 
                     } else {
-                        alertify.error("Login facebook não autorizado!");
+                        toastr.error("Login facebook não autorizado!");
                     }
                     console.log(response);
                 }, {scope: 'public_profile,email'});

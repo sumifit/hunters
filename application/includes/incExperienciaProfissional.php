@@ -165,7 +165,7 @@
                                             id="habilidadesExp"
                                             name="dados[habilidade]"
                                             ng-model="experiencia.habilidades"
-                                            data-placeholder="Descreva as ferramentas com qual você atuou
+                                            data-placeholder="Ferramentas com qual você atuou
                                                         neste projeto" style="width: 100%;" required>
                                         <option ng-repeat="(chave, valor) in dominios.habilidades">{{valor.tecnologia}}</option>
                                     </select>
