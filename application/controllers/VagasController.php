@@ -101,3 +101,4 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
         echo Helpers::jsonEncode(["success" => 0, "msg" => "Tempo limite de conexão atingido, tente novamente!"]);
     }
 }
+?>

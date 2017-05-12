@@ -7,7 +7,7 @@ hunters.constant("configs", {
     agendaController: "/application/controllers/Agenda.php",
     caixaEntradaController: "/application/controllers/CaixaEntradaController.php",
     avaliacaoTecnicaController: "/application/controllers/AvaliacaoTecnicaController.php",
-    vagasController: "/application/controllers/vagasController.php",
+    vagasController: "/application/controllers/Vagas.php",
     msgExcluir: "Tem certeza que deseja excluir?"
 });
 hunters.factory('randomize', function() {
