@@ -765,6 +765,9 @@
 
 <script src="../bootstrap/js/bootstrap-switch.js"></script>
 
+<link rel="stylesheet" href="../node_modules/toastr/build/toastr.min.css">
+<script src="../node_modules/toastr/build/toastr.min.js"></script>
+
 <!-- Page script -->
 <script>
     $(function () {
