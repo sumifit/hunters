@@ -329,8 +329,8 @@ $view = new TemplateController($arrayView);
 
 
                                 <li class="list-group-item">
-                                    <b class="col-md-8" style="padding:0;">Projeto por tempo determinado</b>
-                                    <a class="pull-right col-md-4">
+                                    <b class="col-md-7" style="padding:0;">Projeto por tempo determinado</b>
+                                    <a class="pull-right col-md-5">
                                         <input id="switch-size" type="checkbox" name="tempo_determinado"
                                                data-on-text="Sim" data-off-text="Não" data-size="mini">
                                     </a>
@@ -338,8 +338,8 @@ $view = new TemplateController($arrayView);
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b class="col-md-8" style="padding:0;">Projeto é Prorrogável</b>
-                                    <a class="pull-right col-md-4">
+                                    <b class="col-md-7" style="padding:0;">Projeto é Prorrogável</b>
+                                    <a class="pull-right col-md-5">
                                         <input id="switch-size" type="checkbox" name="projeto_prorrogavel"
                                                data-on-text="Sim" data-off-text="Não" data-size="mini">
                                     </a>
@@ -347,8 +347,8 @@ $view = new TemplateController($arrayView);
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b class="col-md-8" style="padding:0;">Vaga para PCD</b>
-                                    <a class="pull-right col-md-4">
+                                    <b class="col-md-7" style="padding:0;">Vaga para PCD</b>
+                                    <a class="pull-right col-md-5">
                                         <input id="switch-size" type="checkbox" name="deficiente_fisico"
                                                data-on-text="Sim" data-off-text="Não" data-size="mini">
                                     </a>
@@ -356,8 +356,8 @@ $view = new TemplateController($arrayView);
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b class="col-md-8" style="padding:0;">O Horário é Alternativo</b>
-                                    <a class="pull-right col-md-4">
+                                    <b class="col-md-7" style="padding:0;">O Horário é Alternativo</b>
+                                    <a class="pull-right col-md-5">
                                         <input id="switch-size" type="checkbox" name="horário_alternativo"
                                                data-on-text="Sim" data-off-text="Não" data-size="mini">
                                     </a>
@@ -365,8 +365,8 @@ $view = new TemplateController($arrayView);
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b class="col-md-8" style="padding:0;">Oportunidade Home Office</b>
-                                    <a class="pull-right col-md-4">
+                                    <b class="col-md-7" style="padding:0;">Oportunidade Home Office</b>
+                                    <a class="pull-right col-md-5">
                                         <input id="switch-size" type="checkbox" name="home_office" data-on-text="Sim"
                                                data-off-text="Não" data-size="mini">
                                     </a>
@@ -571,7 +571,7 @@ $view = new TemplateController($arrayView);
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
         </div>
-        <strong>Copyright &copy; 2016-2016 <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
+        <strong>Copyright &copy; 2016-<?php echo date('Y'); ?> <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
     </footer>
 
     <!-- Control Sidebar -->

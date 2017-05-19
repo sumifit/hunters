@@ -49,12 +49,12 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-credit-card"></i>
                                         </div>
-                                        <input type="number" class="form-control"
+                                        <input type="text" class="form-control"
                                                id="digitoCandidato"
                                                ng-value="dadosUsuario.candidato.digito"
                                                ng-model="dadosPessoais.digito"
                                                name="dados[candidato][digito]"
-                                               placeholder="Dígito" maxlength="5" required>
+                                               placeholder="Dígito" maxlength="2" required>
                                     </div><!-- /.input group -->
                                     <small class="form-error required" style="display:none;">Campo obrigatório</small>
                                 </div>
@@ -204,7 +204,7 @@
                                         <select class="form-control"
                                                 id="estadoCivilCandidato"
                                                 ng-value="dadosUsuario.candidato.estado_civil"
-                                                ng-model="dadosPessoais.estado_civil"
+                                                ng-model="dadosUsuario.candidato.estado_civil"
                                                 name="dados[candidato][estado_civil]" required>
                                             <option value="">Selecione</option>
                                             <option ng-repeat="(chave, valor) in dominios.estado_civil">{{valor.estado_civil}}</option>
@@ -226,7 +226,6 @@
                                                    ng-value="dadosUsuario.candidato.telefone"
                                                    name="dados[candidato][telefone]"
                                                    ng-model="dadosPessoais.telefone"
-                                                   data-inputmask='"mask": "(099) 9999-9999"'
                                                    data-mask>
                                         </div><!-- /.input group -->
                                     </div><!-- /.form group -->
@@ -250,7 +249,6 @@
                                                ng-value="dadosUsuario.candidato.celular"
                                                ng-model="dadosPessoais.celular"
                                                name="dados[candidato][celular]"
-                                               data-inputmask='"mask": "(099) 99999-9999"'
                                                data-mask required>
                                     </div><!-- /.input group -->
                                     <small class="error form-error" style="display:none;">Celular inválido</small>
@@ -384,7 +382,7 @@
                                     <select class="form-control"
                                             id="estadoCandidato"
                                             ng-value="dadosUsuario.endereco.estado"
-                                            ng-model="dadosPessoais.estado"
+                                            ng-model="dadosUsuario.endereco.estado"
                                             name="dados[endereco][estado]" readonly="readonly" required>
                                         <option value="">Selecione</option>
                                         <option ng-repeat="(chave, valor) in dominios.estados">{{valor.estado}}</option>

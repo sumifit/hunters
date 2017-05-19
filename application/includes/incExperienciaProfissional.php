@@ -206,6 +206,8 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <a type="submit" class="btn btn-primary" ng-click="pushExperienciaProfissional()" promise-btn>Atualizar</a>
+                                    <a type="submit" class="btn btn-danger" ng-click="cancelExperienciaEditable()" ng-if="!!flagAlteracaoExperiencia" promise-btn>Cancelar
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -228,13 +230,13 @@
                             <td>{{experiencia.empresa}}</td>
                             <td>{{experiencia.cargo}}</td>
                             <td>
-                                <a class="btn btn-info" href="#">
+                                <a class="btn btn-info" ng-click="setExperienciaEditable(experiencia)">
                                     <i class="fa fa-edit" data-toggle="tooltip"
                                        data-placement="bottom" title="Editar"></i>
                                 </a>
-                                <a class="btn btn-danger">
+                                <a class="btn btn-danger" ng-click="pullMongo(experiencia, 'experiencia_profissional')">
                                     <i class="fa fa-trash-o" data-toggle="tooltip"
-                                       data-placement="bottom" title="Excluir" ng-click="pullMongo(experiencia, 'experiencia_profissional')"></i>
+                                       data-placement="bottom" title="Excluir"></i>
                                 </a>
                             </td>
                         </tr>

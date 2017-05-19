@@ -347,7 +347,7 @@ hunters.factory('FormUtils', function () {
         },
         vtext1: function (selector) {
             //vtext1
-            if(selector.val().length <= 15){
+            if(selector.val().length <= 8){
                 return false;
             }
             return true;

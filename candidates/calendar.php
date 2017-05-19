@@ -60,6 +60,7 @@ $view = new TemplateController($arrayView);
     <script src="../bower_components/angular-directive.g-signin/google-plus-signin.js"></script>
 
     <script src="../dist/js/hunters.js"></script>
+      <script src="../plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js"></script>
     <script>
       hunters.controller('agendaController', ['FormUtils','$scope', '$http', 'configs', 'alertify', function (FormUtils, $scope, $http, configs, alertify) {
 
@@ -419,7 +420,7 @@ $view = new TemplateController($arrayView);
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.0.0
         </div>
-        <strong>Copyright &copy; 2016-2016 <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
+        <strong>Copyright &copy; 2016-<?php echo date('Y'); ?> <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
       </footer>
 
       <!-- Control Sidebar -->

@@ -60,6 +60,17 @@ $view = new TemplateController($arrayView);
     <script src="../node_modules/alertify.js/dist/js/ngAlertify.js"></script>
 
     <script src="../dist/js/hunters.js"></script>
+    <style>
+        .modal.modal-wide .modal-dialog {
+            width: 80%;
+        }
+        .modal-wide .modal-body {
+            overflow-y: auto;
+        }
+
+        /* irrelevant styling */
+        #tallModal .modal-body p { margin-bottom: 900px }
+    </style>
     <script>
         hunters.controller('usuarioController', ['FormUtils','$scope', '$http', 'configs','alertify','randomize', function (FormUtils, $scope, $http, configs, alertify, randomize) {
             $scope.dadosPessoais = {};
@@ -87,7 +98,18 @@ $view = new TemplateController($arrayView);
                     } else{
                         $scope.dominios = data.data.msg;
                         console.log($scope.dominios)
-                        $scope.formGrauEscolaridade = $scope.dominios.escolaridade[0].grau_escolaridade;
+
+                        $scope.formGrauEscolaridade = "Carregando...";
+                        setTimeout(function(){
+                            var itensOrdenados = $('#nacionalidadeCandidato option').sort(function (a, b) {
+                                return a.text < b.text ? -1 : 1;
+                            });
+
+                            $('#nacionalidadeCandidato').html(itensOrdenados);
+                            $scope.dadosPessoais.nacionalidade = !!$scope.dadosUsuario.candidato.nacionalidade ? $scope.dadosUsuario.candidato.nacionalidade : "";
+
+                            $scope.formGrauEscolaridade = $scope.dominios.escolaridade[0].grau_escolaridade;
+                        }, 1000);
                     }
                 });
                 return send;
@@ -192,7 +214,7 @@ $view = new TemplateController($arrayView);
                     return false;
                 }
 
-                var formUser = $("#formDadosPessoais").serialize();
+                var formUser = $("#formDadosPessoais").serialize()+"&dados[pcd]="+$("#pcd").bootstrapSwitch('state');
                 var action = "atualizarDadosPessoais";
 
                 var send = $http.post(configs.userController, formUser + "&action=" + action,
@@ -202,7 +224,6 @@ $view = new TemplateController($arrayView);
                 send.then(function (data) {
                     if(data.data.success >= 1) toastr.success('Dados gravados com sucesso', 'success');
                     else toastr.error('Não foi possivel salvar os dados, tente novamente');
-
                 });
                 return send;
             }
@@ -235,7 +256,9 @@ $view = new TemplateController($arrayView);
                 send.then(function (data) {
                     $scope.getDadosUsuario();
                     if(data.data.success >= 1) toastr.success('Dados gravados com sucesso');
-                    else toastr.error(data.data.msg);
+                    else {
+                        toastr.error(data.data.msg);
+                    }
                 })
                 return send;
             }
@@ -432,11 +455,15 @@ $view = new TemplateController($arrayView);
                             if(!argumento.cursando) return "";
                             else return "&argument[cursando]=" + argumento.cursando;
                         }());
+                        var data_conclusao = (function(){
+                            if(!!argumento.data_conclusao) return "&argument[data_conclusao]=" + argumento.data_conclusao;
+                            else return "";
+                        })();
 
                         var formFormacaoAcademica = "argument[instituicao]=" + argumento.instituicao
                             + "&argument[grau_escolaridade]=" + argumento.grau_escolaridade
                             + "&argument[curso]=" + argumento.curso
-                            + "&argument[data_conclusao]=" + argumento.data_conclusao
+                            + data_conclusao
                             + cursando
                             + "&argument[descricao]=" + argumento.descricao
                             + "&action=" + action;
@@ -504,6 +531,39 @@ $view = new TemplateController($arrayView);
                                 }
                             }
                         }
+                        $("#pcd").bootstrapSwitch('state', ($scope.dadosUsuario.pcd == 'true'));
+                        $("#boolCursandoAcademica").bootstrapSwitch();
+
+                        /*
+                         * Função para trabalhar a lógica de completo != cursando
+                         * */
+                        function chaveiaFormacao(){
+                            if($("#grauAcademico").val().indexOf("- Completo") != -1){
+                                $("#boolCursandoAcademica").bootstrapSwitch("state",false);
+                                $("#boolCursandoAcademica").bootstrapSwitch("toggleDisabled",true,true);
+                                $("#dataConclusaoAcademica").removeAttr("disabled");
+                                $("#dataConclusaoAcademica").attr("required", "required");
+                            }else{
+                                $("#boolCursandoAcademica").bootstrapSwitch("disabled",false);
+                                $("#dataConclusaoAcademica").attr("disabled", "disabled");
+                                $("#dataConclusaoAcademica").val("");
+                                $("#dataConclusaoAcademica").removeAttr("required");
+                            }
+                        }
+
+                        $("#boolCursandoAcademica").on('switchChange.bootstrapSwitch', function (event, state) {
+                            if (!state && $("#grauAcademico").val().indexOf("- Completo") != -1) {
+                                $("#dataConclusaoAcademica").removeAttr("disabled");
+                            } else {
+                                $("#dataConclusaoAcademica").attr("disabled", "disabled");
+                                $("#dataConclusaoAcademica").val("");
+                            }
+                        });
+                        $("#grauAcademico").change(function(){
+                            chaveiaFormacao();
+                        });
+                        //chama a função para pega ro que já está selecionado
+                        chaveiaFormacao();
                     }
                 });
             }
@@ -566,6 +626,50 @@ $view = new TemplateController($arrayView);
             $scope.getDadosUsuario();
             $scope.getFlags();
 
+            /*
+            * Função que seta os dados para preparar a edição da formação academica
+            * */
+            $scope.setFormacaoEditable = function(formacao){
+                $scope.flagAlteracao = true;
+                $("#cursando").bootstrapSwitch('state', !!formacao.cursando);
+                console.log(formacao);
+                $("#instituicaoAcademica").focus();
+                $("#instituicaoAcademica").val(formacao.instituicao);
+                $("#grauAcademico").val(formacao.grau_escolaridade);
+                $("#cursoAcademico").val(formacao.curso);
+                $("#dataConclusaoAcademica").val(formacao.data_conclusao);
+                $("#descricaoAcademica").val(formacao.descricao);
+                $("#boolCursandoAcademica").bootstrapSwitch('state', !!formacao.data_conclusao);
+            };
+            $scope.cancelFormacaoEditable = function(){
+                $scope.flagAlteracao = false;
+                $("#instituicaoAcademica").val('');
+                $("#cursoAcademico").val('');
+                $("#dataConclusaoAcademica").val('');
+                $("#descricaoAcademica").val('');
+                $("#boolCursandoAcademica").bootstrapSwitch('state', false);
+            };
+
+            $scope.cancelExperienciaEditable = function(){
+                $scope.flagAlteracaoExperiencia = false;
+                $("#instituicaoAcademica").val('');
+            };
+
+            $scope.setExperienciaEditable = function(experiencia){
+                $scope.flagAlteracaoExperiencia = true;
+                console.log(experiencia);
+                $("#empresaExp").focus();
+                $("#empresaExp").val(experiencia.empresa);
+                $("#localidadeExp").val(experiencia.localidade);
+                $("#segmentoExp").val(experiencia.segmento);
+                $("#cargoExp").val(experiencia.cargo);
+                $("#inicioExp").val(experiencia.data_inicio);
+                //$("#fimExp").val(experiencia.data_inicio);
+                $("#boolCargoAtualExp").val('state', !!experiencia.cargo_atual);
+                $("#formaExp").val(experiencia.forma_contratacao);
+                $("#pretensaoExp").val(experiencia.ultimo_salario);
+                $("#websiteExp").val(experiencia.website);
+            };
 
             $(function () {
                 //Initialize Select2 Elements
@@ -617,7 +721,7 @@ $view = new TemplateController($arrayView);
                 $(".bootstrapSwitch").bootstrapSwitch();
 
                 //Date picker
-                $('.datepicker').datepicker({});
+                $('.datepicker').datepicker({language: 'pt-BR'});
 
                 //iCheck for checkbox and radio inputs
                 $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
@@ -658,19 +762,6 @@ $view = new TemplateController($arrayView);
             });
             //$("#fimExp").attr("disabled", "disabled");
 
-            $("#boolCursandoAcademica").on('switchChange.bootstrapSwitch', function (event, state) {
-                if($("#dataConclusaoAcademica").val() != ''){
-                    $(this).bootstrapSwitch('state',false);
-                    $(this).bootstrapSwitch('toggleDisabled',true,true);
-                    return false;
-                }
-
-                if (!state) {
-                    $("#dataConclusaoAcademica").removeAttr("disabled");
-                } else {
-                    $("#dataConclusaoAcademica").attr("disabled", "disabled");
-                }
-            });
 
             $("#boolCargoAtualExp").on('switchChange.bootstrapSwitch', function (event, state) {
                 if (!state) {
@@ -680,23 +771,17 @@ $view = new TemplateController($arrayView);
                 }
             });
 
-            $("#dataConclusaoAcademica").focusout(function(val){
-                if(val != ""){
-                    $("#boolCursandoAcademica").bootstrapSwitch('toggleDisabled',true,true);
-                }
-            });
-            $("#grauAcademico").change(function(){
-                if($(this).val().indexOf('- Completo') != -1){
-                    $("#boolCursandoAcademica").bootstrapSwitch('state',false);
-                    $("#boolCursandoAcademica").bootstrapSwitch('toggleDisabled',true,true);
-                }else{
-                    $("#boolCursandoAcademica").bootstrapSwitch('state',true);
-                    $("#boolCursandoAcademica").bootstrapSwitch('toggleEnabled',true,true);
-                }
-            });
             $scope.limitaTamanho = function(modelo){
                 modelo = new String(modelo);
             }
+
+            $("#telefoneCandidato").keydown(function(){
+                if($(this).val() == '') $(this).inputmask({"mask": "(099) 9999-9999"});
+            });
+            $("#celularCandidato").keydown(function(){
+                if($(this).val() == '') $(this).inputmask({"mask": "(099) 99999-9999"});
+            });
+
         }]);
     </script>
 </head>
@@ -838,27 +923,30 @@ $view = new TemplateController($arrayView);
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>Disponível para viagens?</b>
-                                    <a class="pull-right">
+                                    <b class="col-md-8" style="padding:0!important;">Disponível para viagens?</b>
+                                    <a class="pull-right col-md-4" style="margin-right:10px;margin-top:-20px;">
                                         <input type="checkbox" class="bootstrapSwitch"
                                                data-on-text="Sim" data-off-text="Não" data-size="mini" id="disponivel_viagens" value="true">
                                     </a>
+                                    <div class="clearfix"></div>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>Você é fumante?</b>
-                                    <a class="pull-right">
+                                    <b class="col-md-8" style="padding:0!important;">Você é fumante?</b>
+                                    <a class="pull-right col-md-4" style="margin-right:10px;margin-top:-25px;">
                                         <input type="checkbox" class="bootstrapSwitch" data-on-text="Sim"
                                                data-off-text="Não" data-size="mini" id="fumante" value="true">
                                     </a>
+                                    <div class="clearfix"></div>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>Deseja receber notificações Newsletter?</b>
-                                    <a class="pull-right">
+                                    <b class="col-md-8" style="padding:0!important;">Deseja receber notificações Newsletter?</b>
+                                    <a class="pull-right col-md-4" style="margin-right:10px;margin-top:-35px;">
                                         <input type="checkbox" class="bootstrapSwitch"
                                                data-on-text="Sim" data-off-text="Não" data-size="mini" id="receber_notificacoes" value="true">
                                     </a>
+                                    <div class="clearfix"></div>
                                 </li>
 
                             </ul>
@@ -949,7 +1037,7 @@ $view = new TemplateController($arrayView);
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
         </div>
-        <strong>Copyright &copy; 2016-2016 <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
+        <strong>Copyright &copy; 2016-<?php echo date('Y'); ?> <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
     </footer>
 
     <!-- Control Sidebar -->
@@ -1135,6 +1223,7 @@ $view = new TemplateController($arrayView);
 <script src="../plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="../plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js"></script>
 <!-- bootstrap color picker -->
 <script src="../plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
 <!-- bootstrap time picker -->
@@ -1173,10 +1262,11 @@ $view = new TemplateController($arrayView);
 </script>
 <script>
     $('#inicio').datepicker({
-        dateFormat: 'dd-mm-yy',
-        autoclose: true
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR'
     });
 </script>
 <!--End of Tawk.to Script-->
+
 </body>
 </html>

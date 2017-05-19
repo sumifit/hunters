@@ -5,6 +5,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Informe seu histórico acadêmico </h3>
                 </div>
+
                 <!-- formacao academica -->
                 <form id="formacaoAcademicaForm" name="formacaoAcademicaForm" method="post">
                     <div class="box-body">
@@ -35,7 +36,6 @@
                                         </div>
                                         <select class="form-control"
                                                 id="grauAcademico"
-                                                ng-value="dadosUsuario.formacao_academica.grau_escolaridade"
                                                 ng-model="formGrauEscolaridade"
                                                 name="dados[grau_escolaridade]"
                                                 required>
@@ -59,7 +59,7 @@
                                         <input type="text" class="form-control"
                                                id="cursoAcademico"
                                                ng-value="dadosUsuario.formacao_academica.curso"
-                                               ng-model="formCurso"
+                                               ng-model="alterarFormacao.curso"
                                                placeholder="Curso" name="dados[curso]"
                                                required>
                                     </div>
@@ -75,6 +75,7 @@
                                         <input type="text" class="form-control pull-right datepicker"
                                                name="dados[data_conclusao]"
                                                ng-value="dadosUsuario.formacao_academica.data_conclusao"
+                                               ng-model="alterarFormacao.data_conclusao"
                                                id="dataConclusaoAcademica" data-date-format="dd/mm/yyyy" required>
                                     </div><!-- /.input group -->
                                     <small class="form-error required" style="display:none;">Campo obrigatório</small>
@@ -89,7 +90,6 @@
                                                data-on-text="Sim" data-off-text="Não"
                                                data-size="mini" value="true"
                                                ng-value="dadosUsuario.formacao_academica.cursando"
-                                               ng-model="formCursando"
                                                name="dados[cursando]">
                                     </div>
                                 </div>
@@ -116,6 +116,8 @@
                                 <div class="col-xs-12">
                                     <a type="submit" class="btn btn-primary" ng-click="pushFormacaoAcademica()" promise-btn>Atualizar
                                     </a>
+                                    <a type="submit" class="btn btn-danger" ng-click="cancelExperienciaEditable()" ng-if="!!flagAlteracao" promise-btn>Cancelar
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +140,7 @@
                                 <td>{{formacao.instituicao}}</td>
                                 <td>{{formacao.curso}}</td>
                                 <td>
-                                    <a class="btn btn-info" href="#">
+                                    <a class="btn btn-info"  data-toggle="modal" data-target="#alteracaoAcademica" ng-click="setFormacaoEditable(formacao)">
                                         <i class="fa fa-edit" data-toggle="tooltip"
                                            data-placement="bottom" title="Editar"></i>
                                     </a>

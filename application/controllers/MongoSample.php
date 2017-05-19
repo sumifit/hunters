@@ -17,7 +17,7 @@ class MongoSample
 
     public function __construct()
     {
-        if(DEBUG) $this->setConString("mongodb://localhost:27017/huntersdb?authSource=huntersdb&connectTimeoutMS=3000");
+        if(DEBUG) $this->setConString("mongodb://localhost:27017/huntersdb?authSource=huntersdb&connectTimeoutMS=1000");
         else $this->setConString("mongodb://hunters_usr:hunters%402017@104.154.101.161:27017/huntersdb?authSource=huntersdb&connectTimeoutMS=3000");
     }
 

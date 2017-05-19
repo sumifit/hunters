@@ -267,7 +267,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.0.0
         </div>
-        <strong>Copyright &copy; 2016-2016 <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
+        <strong>Copyright &copy; 2016-<?php echo date('Y'); ?> <a href="http://www.sumifit.com/"> SumIFIT </a></strong> All rights reserved.
       </footer>
 
       <!-- Control Sidebar -->
